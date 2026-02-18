@@ -51,6 +51,13 @@ return [
     */
 
     'channels' => [
+		
+		'my_exception' => [
+			'driver' => 'single',
+			'path' => storage_path('logs/my_exception.log'),
+			'level' => 'debug',
+			'replace_placeholders' => true
+		],
 
         'stack' => [
             'driver' => 'stack',
