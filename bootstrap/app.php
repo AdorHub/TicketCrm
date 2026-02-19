@@ -1,9 +1,11 @@
 <?php
 
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\ValidationException;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -12,19 +14,32 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        $middleware->RedirectTo(guests: '/admin/register', users: '/admin/panel');
     })
     ->withExceptions(function (Exceptions $exceptions): void {
 		$exceptions->render(function (\Throwable $e) {
-				Log::channel('my_exception')->error('[Error]: {message} occurred in class {class} at file {file}:{line}.\nStack trace:\n{trace}', [
+				Log::channel('my_exception')->error('[Исключение]: {message} Возникло в классе: {class} Файла: {file}:{line}.\nStack trace:\n{trace}', [
 					'{message}' => $e->getMessage(),
 					'{class}' => get_class($e),
 					'{file}' => $e->getFile(),
 					'{line}' => $e->getLine(),
 					'{trace}' => $e->getTraceAsString(),
 				]);
-			return redirect()->back()
-				->with('error', 'Произошла ошибка сервера. Повторите запрос позже')
-				->withInput();
+				switch (true) {
+					case $e instanceof ValidationException:
+						return redirect()->back()
+							->withErrors($e->validator->messages())
+							->withInput();
+
+					case $e instanceof AuthenticationException:
+						return redirect()->back()
+							->withErrors(['password' => 'Почта или пароль указаны неверно'])
+							->withInput();
+
+					default:
+						return redirect()->back()
+							->withErrors(['error' => 'Произошла ошибка сервера. Повторите запрос позже'])
+							->withInput();
+				}		
 		});
     })->create();
