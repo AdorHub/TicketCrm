@@ -46,20 +46,18 @@
 										<p>&bull; {{$item->file_name}}</p>
 										@if (in_array($item->mime_type, ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif', 'application/pdf']))
 											<div>
-												<a href="{{ route('view-media', ['media' => $item->id]) }}" target="_blank" class="bg-blue-300 p-1 text-sm text-white font-medium hover:bg-blue-400 transition-all visited:bg-gray-300 rounded-sm">Просмотреть</a>
-												<a href="{{ route('download-media', ['media' => $item->id]) }}" class="bg-green-300 p-1 text-sm text-white font-medium hover:bg-green-400 transition-all visited:bg-gray-300 rounded-sm">Скачать</a>
+												<a href="{{ route('media.show', ['media' => $item->id]) }}" target="_blank" class="bg-blue-300 p-1 text-sm text-white font-medium hover:bg-blue-400 transition-all visited:bg-gray-300 rounded-sm">Просмотреть</a>
+												<a href="{{ route('media.download', ['media' => $item->id]) }}" class="bg-green-300 p-1 text-sm text-white font-medium hover:bg-green-400 transition-all visited:bg-gray-300 rounded-sm">Скачать</a>
 											</div>											
 										@else
 											<div>
-												<a href="{{ route('download-media', ['media' => $item->id]) }}" class="bg-green-300 p-1 text-sm text-white font-medium hover:bg-green-400 transition-all visited:bg-gray-300 rounded-sm">Скачать</a>
-											</div>
-											
+												<a href="{{ route('media.download', ['media' => $item->id]) }}" class="bg-green-300 p-1 text-sm text-white font-medium hover:bg-green-400 transition-all visited:bg-gray-300 rounded-sm">Скачать</a>
+											</div>											
 										@endif
 										</div>
 								@endforeach
 							</div>
-
-						@endif						
+						@endif
 					@endforeach
 				@endif
 			</div>

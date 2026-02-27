@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\MediaController;
 use App\Http\Controllers\Admin\TicketController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
@@ -26,6 +27,11 @@ Route::group(['prefix' => 'admin'], function () {
 			Route::patch('/panel/ticket/{ticket}', 'updateStatus')->name('panel.tickets.updateStatus');
 		});		
 	});
+});
+
+Route::controller(MediaController::class)->middleware(['auth', 'manager'])->group(function () {
+	Route::get('/view-media/{media}', 'show')->name('media.show');
+	Route::get('/download-media/{media}', 'download')->name('media.download');
 });
 
 Route::fallback(function () {
