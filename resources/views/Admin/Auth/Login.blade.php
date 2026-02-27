@@ -5,14 +5,14 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<title>Admin Register Page</title>
-	@vite(['resources/css/app.css'])
+	@vite(['resources/css/app.css', 'resources/js/flashSessionMsg.js'])
 </head>
 <body class="h-full">
 	<div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
 	<div class="sm:mx-auto sm:w-full sm:max-w-sm">
 		<h2 class="text-center text-2xl/9 font-bold tracking-tight text-white">Вход в систему</h2>
 		@if (session('success'))
-			<p class="text-green-500! mt-5 text-center font-bold">{{ session('success') }}</p>
+			<p class="success-msg text-green-500! mt-5 text-center font-bold">{{ session('success') }}</p>
 		@endif
 		@error ('error')
 			<p class="text-red-500! mt-5 text-center font-bold">{{ $message }}</p>

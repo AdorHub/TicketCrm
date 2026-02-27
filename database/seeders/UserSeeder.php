@@ -15,13 +15,9 @@ class UserSeeder extends Seeder
      * Run the database seeds.
      */
     public function run(): void
-    {
-        $managePermission = Permission::firstOrCreate(['name' => 'edit']);
-		
+    {		
 		$managerRole = Role::firstOrCreate(['name' => 'Manager']);
 		$adminRole = Role::firstOrCreate(['name' => 'Admin']);
-
-		$managerRole->givePermissionTo($managePermission);
 
 		$manager = User::factory()->create([
 			'name' => 'Manager',

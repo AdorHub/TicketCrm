@@ -52,9 +52,9 @@ return [
 
     'channels' => [
 		
-		'my_exception' => [
+		'exception' => [
 			'driver' => 'single',
-			'path' => storage_path('logs/my_exception.log'),
+			'path' => storage_path('logs/exceptions.log'),
 			'level' => 'debug',
 			'replace_placeholders' => true
 		],

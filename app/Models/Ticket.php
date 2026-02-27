@@ -17,28 +17,43 @@ class Ticket extends Model implements HasMedia
 		'subject',
 		'text',
 		'status',
-		'response_data'
+		'response_data',
+		'customer_id'
 	];
 
 	public function registerMediaCollections(): void
 	{
 		$this->addMediaCollection('images')
-				->acceptsMimeTypes(['image/*'])
-				->useDisk('public');
+			->acceptsMimeTypes([
+				'image/jpeg',
+				'image/jpg',
+				'image/png',
+				'image/gif',
+				'image/webp'
+			])
+			->useDisk('public');
 
 		$this->addMediaCollection('audios')
-			->acceptsMimeTypes(['audio/*'])
+			->acceptsMimeTypes([
+				'audio/mpeg',
+				'audio/wav',
+				'audio/ogg',
+				'audio/mp3'
+			])
 			->useDisk('public');
 
 		$this->addMediaCollection('videos')
-			->acceptsMimeTypes(['video/*'])
+			->acceptsMimeTypes([
+				'video/mp4',
+				'video/quicktime',
+				'video/x-msvideo'
+			])
 			->useDisk('public');
 
 		$this->addMediaCollection('documents')
 			->acceptsMimeTypes([
 				'application/pdf',
 				'application/msword',
-				'application/vnd.ms-excel',
 				'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
 				'text/plain'
 			])
@@ -48,5 +63,28 @@ class Ticket extends Model implements HasMedia
 	public function customer(): BelongsTo
 	{
 		return $this->belongsTo(Customer::class);
+	}
+
+	public function scopeTicketFilter($query, array $filters)
+	{
+		if (!empty($filters['from_date'])) {
+			$query->whereDate('created_at', '>=', $filters['from_date']);
+		}
+		if (!empty($filters['to_date'])) {
+			$query->whereDate('created_at', '<=', $filters['to_date']);
+		}
+		if (!empty($filters['status']) && $filters['status'] !== 'all') {
+			$query->where('status', '=', $filters['status']);
+		}
+		if (!empty($filters['email'])) {
+			$query->whereHas('customer', function ($q) use ($filters) {
+				$q->where('email', 'like', '%' . $filters['email'] . '%');
+			});
+		}
+		if (!empty($filters['phone'])) {
+			$query->whereHas('customer', function ($q) use ($filters) {
+				$q->where('phone', 'like', '%' . $filters['phone'] . '%');
+			});
+		}
 	}
 }

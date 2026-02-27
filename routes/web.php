@@ -1,7 +1,9 @@
 <?php
 
-use App\Http\Controllers\LoginController;
-use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\TicketController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
 use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', '/admin/register');
@@ -14,5 +16,18 @@ Route::group(['prefix' => 'admin'], function () {
 		Route::view('/login', 'admin/auth/login')->name('login.index');
 		Route::post('/login', LoginController::class)->name('login.store');
 	});
-	
+
+	Route::middleware('manager')->group(function () {
+		Route::get('/panel', [DashboardController::class, 'index'])->name('panel.dashboard.index');
+
+		Route::controller(TicketController::class)->group(function () {
+			Route::get('/panel/tickets', 'index')->name('panel.tickets.index');
+			Route::get('/panel/tickets/{ticket}', 'show')->name('panel.tickets.show');
+			Route::patch('/panel/ticket/{ticket}', 'updateStatus')->name('panel.tickets.updateStatus');
+		});		
+	});
+});
+
+Route::fallback(function () {
+	abort(404);
 });
