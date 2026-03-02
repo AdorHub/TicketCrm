@@ -16,7 +16,12 @@ class RegisterController extends Controller
 		//
 	}
 
-    public function __invoke(RegisterRequest $request)
+	public function index()
+	{
+		return view('admin/auth/register');
+	}
+
+    public function store(RegisterRequest $request)
 	{
 		$this->service->register($request->validated());
 		return redirect()->route('login.index')->with('success', 'Регистрация прошла успешно!');

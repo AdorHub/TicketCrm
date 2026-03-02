@@ -59,6 +59,13 @@ return [
 			'replace_placeholders' => true
 		],
 
+		'api_exception' => [
+			'driver' => 'single',
+			'path' => storage_path('logs/api_exceptions.log'),
+			'level' => 'debug',
+			'replace_placeholders' => true
+		],
+
         'stack' => [
             'driver' => 'stack',
             'channels' => explode(',', (string) env('LOG_STACK', 'single')),

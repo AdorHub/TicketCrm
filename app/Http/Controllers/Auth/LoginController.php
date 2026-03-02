@@ -15,12 +15,17 @@ class LoginController extends Controller
 	{
 		//
 	}
+
+	public function index()
+	{
+		return view('admin/auth/login');
+	}
     /**
      * Handle the incoming request.
      */
-    public function __invoke(LoginRequest $request)
+    public function store(LoginRequest $request)
     {
         $this->service->login($request->validated());
-		return redirect()->route('panel.index');
+		return redirect()->route('panel.dashboard.index');
     }
 }

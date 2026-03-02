@@ -9,31 +9,36 @@ use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', '/admin/register');
 
-Route::group(['prefix' => 'admin'], function () {
+Route::middleware('web')->group(function () {
+	Route::group(['prefix' => 'admin'], function () {
+		Route::middleware('guest')->group(function () {
+			Route::get('/register', [RegisterController::class, 'index'])->name('register.index');
+			Route::post('/register', [RegisterController::class, 'store'])->name('register.store');
+			Route::get('/login', [LoginController::class, 'index'])->name('login.index');
+			Route::post('/login', [LoginController::class, 'store'])->name('login.store');
+		});
 
-	Route::middleware('guest')->group(function () {
-		Route::view('/register', 'admin/auth/register')->name('register.index');
-		Route::post('/register', RegisterController::class)->name('register.store');
-		Route::view('/login', 'admin/auth/login')->name('login.index');
-		Route::post('/login', LoginController::class)->name('login.store');
+		Route::middleware('manager')->group(function () {
+			Route::get('/panel', [DashboardController::class, 'index'])->name('panel.dashboard.index');
+
+			Route::controller(TicketController::class)->group(function () {
+				Route::get('/panel/tickets', 'index')->name('panel.tickets.index');
+				Route::get('/panel/tickets/{ticket}', 'show')->name('panel.tickets.show');
+				Route::patch('/panel/ticket/{ticket}', 'updateStatus')->name('panel.tickets.updateStatus');
+			});
+
+			Route::controller(MediaController::class)->group(function () {
+				Route::get('/view-media/{media}', 'show')->name('media.show');
+				Route::get('/download-media/{media}', 'download')->name('media.download');
+			});
+		});
 	});
 
-	Route::middleware('manager')->group(function () {
-		Route::get('/panel', [DashboardController::class, 'index'])->name('panel.dashboard.index');
+	Route::view('/widget', 'widget.create-ticket');
+	Route::view('/demo-widget', 'widget.demo-widget');
 
-		Route::controller(TicketController::class)->group(function () {
-			Route::get('/panel/tickets', 'index')->name('panel.tickets.index');
-			Route::get('/panel/tickets/{ticket}', 'show')->name('panel.tickets.show');
-			Route::patch('/panel/ticket/{ticket}', 'updateStatus')->name('panel.tickets.updateStatus');
-		});		
+	Route::fallback(function () {
+		abort(404);
 	});
 });
 
-Route::controller(MediaController::class)->middleware(['auth', 'manager'])->group(function () {
-	Route::get('/view-media/{media}', 'show')->name('media.show');
-	Route::get('/download-media/{media}', 'download')->name('media.download');
-});
-
-Route::fallback(function () {
-	abort(404);
-});

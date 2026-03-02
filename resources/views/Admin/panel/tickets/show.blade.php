@@ -48,11 +48,11 @@
 											<div>
 												<a href="{{ route('media.show', ['media' => $item->id]) }}" target="_blank" class="bg-blue-300 p-1 text-sm text-white font-medium hover:bg-blue-400 transition-all visited:bg-gray-300 rounded-sm">Просмотреть</a>
 												<a href="{{ route('media.download', ['media' => $item->id]) }}" class="bg-green-300 p-1 text-sm text-white font-medium hover:bg-green-400 transition-all visited:bg-gray-300 rounded-sm">Скачать</a>
-											</div>											
+											</div>
 										@else
 											<div>
 												<a href="{{ route('media.download', ['media' => $item->id]) }}" class="bg-green-300 p-1 text-sm text-white font-medium hover:bg-green-400 transition-all visited:bg-gray-300 rounded-sm">Скачать</a>
-											</div>											
+											</div>
 										@endif
 										</div>
 								@endforeach
