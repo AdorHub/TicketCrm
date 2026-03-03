@@ -19,7 +19,7 @@ class TicketService
 	public function store(array $data)
 	{
 		$ticket = $this->repo->createTicket($data);
-		if ($data['attachments']) {
+		if ($data['attachments'] ?? false) {
 			foreach ($data['attachments'] as $file) {
 				$mimeType = $file->getMimeType();
 				$collection = match (true) {
