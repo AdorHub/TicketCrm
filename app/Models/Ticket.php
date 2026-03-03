@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -65,26 +67,44 @@ class Ticket extends Model implements HasMedia
 		return $this->belongsTo(Customer::class);
 	}
 
-	public function scopeTicketFilter($query, array $filters)
+	public function scopeTicketFilter(Builder $query, array $filters): Builder
 	{
-		if (!empty($filters['from_date'])) {
-			$query->whereDate('created_at', '>=', $filters['from_date']);
+		if (!empty($filters['from_date']) && !empty($filters['to_date'])) {
+			$query->createdBetween($filters['from_date'], $filters['to_date']);
+		} else if (!empty($filters['from_date'])) {
+			$query->whereDate('created_at', '>=', Carbon::parse($filters['from_date'])->startOfDay());
+		} else if (!empty($filters['to_date'])) {
+			$query->whereDate('created_at', '<=', Carbon::parse($filters['to_date'])->endOfDay());
 		}
-		if (!empty($filters['to_date'])) {
-			$query->whereDate('created_at', '<=', $filters['to_date']);
-		}
+
 		if (!empty($filters['status']) && $filters['status'] !== 'all') {
-			$query->where('status', '=', $filters['status']);
+			$query->status($filters['status']);
 		}
-		if (!empty($filters['email'])) {
+
+		if (!empty($filters['email']) || !empty($filters['phone'])) {
 			$query->whereHas('customer', function ($q) use ($filters) {
-				$q->where('email', 'like', '%' . $filters['email'] . '%');
+				if (!empty($filters['email'])) {
+					$q->where('email', 'like', '%' . $filters['email'] . '%');
+				}
+				if (!empty($filters['phone'])) {
+					$q->where('phone', 'like', '%' . $filters['phone'] . '%');
+				}				
 			});
 		}
-		if (!empty($filters['phone'])) {
-			$query->whereHas('customer', function ($q) use ($filters) {
-				$q->where('phone', 'like', '%' . $filters['phone'] . '%');
-			});
-		}
+		
+		return $query;
+	}
+
+	public function scopeCreatedBetween(Builder $query, string|Carbon $from, string|Carbon $to): Builder
+	{
+		return $query->whereBetween('created_at', [
+			Carbon::parse($from)->startOfDay(),
+			Carbon::parse($to)->endOfDay()
+		]);
+	}
+
+	public function scopeStatus(Builder $query, string $status)
+	{
+		return $query->where('status', $status);
 	}
 }
