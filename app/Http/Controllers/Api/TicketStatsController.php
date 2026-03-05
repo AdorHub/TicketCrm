@@ -9,16 +9,20 @@ use Illuminate\Http\JsonResponse;
 class TicketStatsController extends Controller
 {
 	/**
-	 * Create a new class instance.
+	 * Create a new controller instance.
+	 *
+	 * @param TicketStatsService $service Service for ticket statistics management
 	 */
 	public function __construct(private TicketStatsService $service)
 	{
 		//
 	}
 
-    /**
-     * Handle the incoming request.
-     */
+	/**
+	 * Handle the request to retrieve statistics.
+	 *
+	 * @return JsonResponse Statistics data with success message
+	 */
     public function __invoke(): JsonResponse
     {
         $stats = $this->service->getStatistics();

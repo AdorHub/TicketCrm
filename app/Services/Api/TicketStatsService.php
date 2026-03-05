@@ -7,14 +7,22 @@ use Carbon\Carbon;
 
 class TicketStatsService
 {
-    /**
-     * Create a new class instance.
-     */
+	/**
+	 * Create a new service instance.
+	 *
+	 * @param TicketStatsRepository $repo Repository for ticket statistics data
+	 */
     public function __construct(private TicketStatsRepository $repo)
     {
         //
     }
 
+	/**
+	 * Retrieve ticket statistics for various time periods (today, yesterday, current week, current month, total count).
+	 *
+	 * @return array Associative array with statistics
+	 *
+	 */
 	public function getStatistics(): array
 	{
 		$now = Carbon::now();

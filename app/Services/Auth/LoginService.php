@@ -7,7 +7,9 @@ use App\Repositories\Auth\LoginRepository;
 class LoginService
 {
 	/**
-	 * Assigns the repository for data operations.
+	 * Create a new service instance.
+	 *
+	 * @param LoginRepository $repo Repository for handling login-related data operations
 	 */
     public function __construct(private LoginRepository $repo)
     {
@@ -15,9 +17,12 @@ class LoginService
     }
 
 	/**
-	 * Passing request to the repository layer
+	 * Authenticate a user using provided credentials.
+	 *
+	 * @param array $data User credentials for login (email, password).
+	 * @return void
 	 */
-	public function login(array $data)
+	public function login(array $data): void
 	{
 		$this->repo->attemptLogin($data);
 	}

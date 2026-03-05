@@ -2,24 +2,18 @@
 
 namespace App\Repositories\Auth;
 
-use App\Models\User;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Support\Facades\Auth;
 
 class LoginRepository
 {
 	/**
-	 * Receives the model for interacting with the database.
+	 * Attempt to authenticate a user with provided credentials.
+	 *
+	 * @param array $data User credentials for login (email, password) 
+	 * @return void
 	 */
-    public function __construct(private User $user)
-    {
-        //
-    }
-
-	/**
-	 * Handles authentication process by validating provided credentials.
-	 */
-	public function attemptLogin(array $data)
+	public function attemptLogin(array $data): void
 	{
 		if (!Auth::attempt($data)) {
 			throw new AuthenticationException('Неверные учётные данные');
