@@ -44,7 +44,7 @@ return Application::configure(basePath: dirname(__DIR__))
 				switch (true) {
 					case $e instanceof ValidationException:
 						return redirect()->back()
-							->withErrors($e->validator->messages())
+							->withErrors($e->validator->messages)
 							->withInput();
 
 					case $e instanceof AuthenticationException:
