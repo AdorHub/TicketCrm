@@ -13,33 +13,33 @@
 		<form action="{{ route('api.ticket.create') }}" method="POST" class="space-y-5" enctype="multipart/form-data">
 			<div>
 				<label for="name" class="block text-sm font-medium text-gray-700 mb-1">Имя</label>
-				<input type="text" id="name" name="name" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition" />
+				<input type="text" id="name" name="name" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition" required />
 			</div>
 
 			<div>
 				<label for="email" class="block text-sm font-medium text-gray-700 mb-1">Почта</label>
-				<input type="email" id="email" name="email" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition" />
+				<input type="email" id="email" name="email" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition" required />
 			</div>
 
 
 			<div>
 				<label for="phone" class="block text-sm font-medium text-gray-700 mb-1">Номер телефона</label>
-				<input type="phone" id="phone" name="phone" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition" />
+				<input type="text" id="phone" name="phone" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition" required />
 			</div>
 
 			<div>
 				<label for="subject" class="block text-sm font-medium text-gray-700 mb-1">Тема</label>
-				<input type="text" id="subject" name="subject" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition" />
+				<input type="text" id="subject" name="subject" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition" required />
 			</div>
 
 			<div>
 				<label for="text" class="block text-sm font-medium text-gray-700 mb-1">Содержание</label>
-				<input type="text" id="text" name="text" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition" />
+				<input type="text" id="text" name="text" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition" required />
 			</div>
 
 			<div>
-				<label for="example1" class="mb-1 block text-sm font-medium text-gray-700">Добавить файлы</label>
-				<input id="example1" type="file" class="mt-2 block w-full text-sm file:mr-4 file:rounded-md file:border-0 file:bg-blue-500 file:py-2 file:px-4 file:text-sm file:font-semibold file:text-white hover:file:bg-blue-600 focus:outline-none disabled:pointer-events-none disabled:opacity-60 transition-all" name="attachments[]" accept="image/*, audio/*, video/*, application/*" multiple />
+				<label for="files" class="mb-1 block text-sm font-medium text-gray-700">Добавить файлы</label>
+				<input id="files" type="file" class="mt-2 block w-full text-sm file:mr-4 file:rounded-md file:border-0 file:bg-blue-500 file:py-2 file:px-4 file:text-sm file:font-semibold file:text-white hover:file:bg-blue-600 focus:outline-none disabled:pointer-events-none disabled:opacity-60 transition-all" name="attachments[]" accept="image/*, audio/*, video/*, application/*" multiple />
 			</div>
 
 			<button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg shadow-md transition-all duration-200">Отправить</button>

@@ -4,38 +4,50 @@
 	{{-- Фильтры --}}
 	<h1 class="text-3xl font-medium text-center space-y-6 mb-6">Фильтры</h1>
 	<form action="{{ route('panel.tickets.index') }}" method="GET">
-		<div class="w-full mx-auto bg-white rounded-lg shadow p-3 mb-8 flex items-center gap-6">
-			<div class="flex-1">
-				<label for="from_date" class="block text-sm font-medium text-gray-700">Дата от</label>
-				<input type="date" id="from_date" name="from_date" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" value="{{ $filters['from_date'] ?? '' }}">
+		<div class="w-full mx-auto bg-white rounded-lg shadow p-4 mb-8 grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-6 gap-4">
+			<!-- Дата от -->
+			<div class="flex flex-col text-left">
+				<label for="from_date" class="block text-md font-medium text-gray-700">Дата от</label>
+				<input type="date" id="from_date" name="from_date" class="px-3 py-2 mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" value="{{ $filters['from_date'] ?? '' }}">
 			</div>
-			<div class="flex-1">
-				<label for="to_date" class="block text-sm font-medium text-gray-700">Дата до</label>
-				<input type="date" id="to_date" name="to_date" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" value="{{ $filters['to_date'] ?? '' }}">
+
+			<!-- Дата до -->
+			<div class="flex flex-col text-left">
+				<label for="to_date" class="block text-md font-medium text-gray-700">Дата до</label>
+				<input type="date" id="to_date" name="to_date" class="px-3 py-2 mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" value="{{ $filters['to_date'] ?? '' }}">
 			</div>
-			<div class="flex-1">
-				<label for="status" class="block text-sm font-medium text-gray-700">Статус</label>
-				<select id="status" name="status" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+
+			<!-- Статус -->
+			<div class="flex flex-col text-left">
+				<label for="status" class="block text-md font-medium text-gray-700">Статус</label>
+				<select id="status" name="status" class="px-3 py-2 mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
 					<option value="all" selected>Все</option>
 					<option value="new" {{ (isset($filters['status']) && $filters['status'] == 'new') ? 'selected' : '' }}>Новый</option>
 					<option value="processing" {{ (isset($filters['status']) && $filters['status'] == 'processing') ? 'selected' : '' }}>В процессе</option>
 					<option value="processed" {{ (isset($filters['status']) && $filters['status'] == 'processed') ? 'selected' : '' }}>Обработаный</option>
 				</select>
 			</div>
-			<div class="flex-1">
-				<label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-				<input type="text" id="email" name="email" placeholder="Поиск по e-mail" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" value="{{ $filters['email'] ?? '' }}">
+
+			<!-- Email -->
+			<div class="flex flex-col text-left">
+				<label for="email" class="block text-md font-medium text-gray-700">Email</label>
+				<input type="text" id="email" name="email" placeholder="Поиск по e-mail" class="px-3 py-2 mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo focus:border-indigo-500 sm:text-sm" value="{{ $filters['email'] ?? '' }}">
 			</div>
-			<div class="flex-1">
-				<label for="phone" class="block text-sm font-medium text-gray-700">Телефон</label>
-				<input type="text" id="phone" name="phone" placeholder="Поиск по телефону" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo- sm:text-sm" value="{{ $filters['phone'] ?? '' }}">
+
+			<!-- Телефон -->
+			<div class="flex flex-col text-left">
+				<label for="phone" class="block text-md font-medium text-gray-700">Телефон</label>
+				<input type="text" id="phone" name="phone" placeholder="Поиск по телефону" class="px-3 py-2 mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo focus:border-indigo-500 sm:text-sm" value="{{ $filters['phone'] ?? '' }}">
 			</div>
-			<div class="flex-1 flex gap-2">
-				<button type="submit" class="px-4 py-2 bg-violet-600 text-white rounded-md hover:bg-violet-700 cursor-pointer transition">Применить</button>
-				<a href="{{ route('panel.tickets.index') }}" type="submit" class="px-4 py-2 bg-blue-300 text-white rounded-md hover:bg-blue-200 transition">Сбросить</a>
+
+			<!-- Блок кнопок -->
+			<div class="flex items-end justify-left gap-2 text-center">
+				<button type="submit" class="px-4 py-2 bg-violet-600 text-white rounded-md hover:bg-violet-700 transition cursor-pointer flex-1">Применить</button>
+				<a href="{{ route('panel.tickets.index') }}" class="px-4 py-2 bg-blue-300 text-white rounded-md hover:bg-blue-200 transition flex-1">Сбросить</a>
 			</div>
 		</div>
 	</form>
+
 	@if ($errors->any())
 		<div class="text-red-500 text-center mb-3">
 			@foreach ($errors->all() as $error)
@@ -143,6 +155,5 @@
 	@else
 		<h1 class="text-3xl font-medium text-center mb-6">Заявки отсутсвуют...</h1>
 	@endif
-
 @endsection
 
