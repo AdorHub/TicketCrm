@@ -4,10 +4,11 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\MediaController;
 use App\Http\Controllers\Admin\TicketController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegisterController;
 use Illuminate\Support\Facades\Route;
 
-Route::redirect('/', '/admin/register');
+Route::redirect('/', '/admin/login');
 
 Route::middleware('web')->group(function () {
 	Route::group(['prefix' => 'admin'], function () {
@@ -17,6 +18,10 @@ Route::middleware('web')->group(function () {
 			Route::get('/login', [LoginController::class, 'index'])->name('login.index');
 			Route::post('/login', [LoginController::class, 'store'])->name('login.store');
 		});
+
+		Route::middleware('auth')->group(function () {
+			Route::delete('/logout', LogoutController::class)->name('logout');
+		});		
 
 		Route::middleware('manager')->group(function () {
 			Route::get('/panel', [DashboardController::class, 'index'])->name('panel.dashboard.index');

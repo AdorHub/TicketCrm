@@ -49,12 +49,18 @@
 		</ul>
 		<!-- Нижняя часть -->
 		<div class="mt-auto p-2 md:p-4">
-			<button class="flex items-center p-2 border border-red-500 rounded w-full justify-center md:justify-start gap-2 hover:cursor-pointer hover:bg-red-100 hover:scale-103 transition-all">
-				<svg class="w-6 h-6 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-					<path d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 01-2 2H7a2 2 0 01-2-2V7a2 2 0 012-2h4a2 2 0 012 2v1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-				</svg>
-				<span class="hidden md:inline text-red-500">Logout</span>
-			</button>
+			<form action="{{ route('logout') }}" method="POST">
+				@csrf
+				@method('DELETE')
+
+				<button type="submit" class="flex items-center p-2 border border-red-500 rounded w-full justify-center md:justify-start gap-2 hover:cursor-pointer hover:bg-red-100 hover:scale-103 transition-all">
+					<svg class="w-6 h-6 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 01-2 2H7a2 2 0 01-2-2V7a2 2 0 012-2h4a2 2 0 012 2v1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+					</svg>
+					<span class="hidden md:inline text-red-500">Logout</span>
+				</button>
+			</form>
+
 		</div>
 	</div>
 	<main id="content" class="transition-margin duration-300 ml-0 md:ml-64 p-4">
