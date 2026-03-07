@@ -30,13 +30,15 @@
 ## Структура
 
 #### Админ панель
+- Адаптивный дизайн и стили `Tailwind CSS`;
 - Стандартная аутентификация `Laravel` с защитой посредников `auth` | `guest`;
 - Маршруты админ панели защищены посредником ролью `manager` присвоенной пакетом `spatie/laravel-Permission`;
-- Список всех заявок и возможность отфильтровать получаемые данные с помощью `Query Scopes`;
+- Список всех заявок и возможность отфильтровать получаемые данные с помощью `Query Scopes`, блок фильтров также проходит валидацию;
 - Статистика по количеству заявок за сутки, неделю, месяц и общей сумме + сравнение активности относительно вчера используя `Carbon` и `Eloquent Scopes`;
 - Возможность просматривать/скачивать приложенные через `spatie/laravel-multimedia` к заявке файлы.
 
 #### Виджет
+##### URL для вставки: `http://127.0.0.1:8000/widget`
 - Адаптивный для вставки в `<iframe>` дизайн;
 - Стили `Tailwind CSS`;
 - Запрос выполняется асинхронно через `JS`;
@@ -144,8 +146,29 @@
 	- документы *[pdf, msword, plain, docx]*
 
 ## Превью
-**Главная страница**
+### Регистрация
+<img width="1920" height="1080" alt="registration" src="https://github.com/user-attachments/assets/45ba2c20-8a62-4ea1-9d2b-ff2fbb8077e0" />
 
+### Вход
+<img width="1920" height="1080" alt="login" src="https://github.com/user-attachments/assets/5bceef96-50c1-4fb6-b88b-fcb5575203e3" />
+
+### Админ панель - Главная
+<img width="1920" height="1080" alt="admin dashboard" src="https://github.com/user-attachments/assets/dd136240-4ad5-418c-971b-7c0978da05fb" />
+
+### Админ панель - Список заявок
+<img width="1920" height="1080" alt="admin tickets" src="https://github.com/user-attachments/assets/a53be669-dbfd-4438-b38a-0dbcae243731" />
+
+### Админ панель - Просмотр заявки
+<img width="1920" height="1080" alt="admin tickets show" src="https://github.com/user-attachments/assets/40618ff6-5db9-402a-9a55-242619b3e3da" />
+
+### Админ панель - Адаптив
+<img width="1920" height="1080" alt="adaptive" src="https://github.com/user-attachments/assets/be280da4-8a1b-4be4-bd5c-760076741498" />
+
+### Виджет
+<img width="1920" height="876" alt="widget" src="https://github.com/user-attachments/assets/a7d4df95-70f8-46f0-a892-8f5b2ab76e06" />
+
+### Страница 404
+<img width="1920" height="1080" alt="404" src="https://github.com/user-attachments/assets/8c930bb6-a830-44f3-a938-8e33327c9af4" />
 
 ## Использование
 
@@ -199,6 +222,11 @@ php artisan serve
 ```
 ```bash
 npm run dev
+```
+
+**Для сборки frontend**
+```bash
+npm run build
 ```
 
 #### <a href="#start">⬆ Наверх</a>
