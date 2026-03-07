@@ -1,59 +1,204 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+![logo](./logo.png)
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+<div id="start" hidden></div>
 
-## About Laravel
+<h1 align=center>Ticket CRM</h1>
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+<div align="center">
+	<img src="https://img.shields.io/badge/Laravel-darkred">
+	<img src="https://img.shields.io/badge/Tailwind-indigo">
+	<img src="https://img.shields.io/badge/Spatie-Permission-pink">
+	<img src="https://img.shields.io/badge/Spatie-Medialibrary-pink">
+</div>
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+<div align="center" style="margin-top: 10px;">
+	<img src="https://img.shields.io/badge/Status-Improving-yellow">
+</div>
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Навигация
 
-## Learning Laravel
+- <a href="#описание"><u>Описание</u></a>
+- <a href="#превью"><u>Превью сайта</u></a>
+- <a href="#использование"><u>Использование</u></a>
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+## Описание
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+#### Про сайт
 
-## Laravel Sponsors
+Мини CRM для просмотра и обработки заявок с сайта через универсальный виджет
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## Структура
 
-### Premium Partners
+#### Админ панель
+- Стандартная аутентификация `Laravel` с защитой посредников `auth` | `guest`;
+- Маршруты админ панели защищены посредником ролью `manager` присвоенной пакетом `spatie/laravel-Permission`;
+- Список всех заявок и возможность отфильтровать получаемые данные с помощью `Query Scopes`;
+- Статистика по количеству заявок за сутки, неделю, месяц и общей сумме + сравнение активности относительно вчера используя `Carbon` и `Eloquent Scopes`;
+- Возможность просматривать/скачивать приложенные через `spatie/laravel-multimedia` к заявке файлы.
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+#### Виджет
+- Адаптивный для вставки в `<iframe>` дизайн;
+- Стили `Tailwind CSS`;
+- Запрос выполняется асинхронно через `JS`;
+- Показ ошибок валидации и сервера;
 
-## Contributing
+#### API Эндпоинты
+**Создание заявки из виджета**
+- _POST_ `/api/tickets` - Создать заявку
+	- требуется json с полями `name`, `email`, `number`, `subject`, `text`
+	- (необязательно) к заявке прикрепляются файлы `attachments`
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+**Получение статистики для админ панели**
+- _GET_ `/api/tickets/statistics` - Получить статистику
 
-## Code of Conduct
+#### API Ответы
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+<p style="color: lime; text-decoration: underline; font-weight: bold;">Успешные</p>
 
-## Security Vulnerabilities
+##### Cоздание заявки:
+Код ответа -  `200`
+```json
+{
+    "message": "Заявка создана успешно"
+}
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+##### Получение статистики:
+Код ответа -  `200`
+```json
+{
+    "message": "Статистика получена успешно",
+    "stats": {
+        "today": 2,
+        "yesterday": 1,
+        "this_week": 188,
+        "this_month": 190,
+        "total": 194
+    }
+}
+```
 
-## License
+<p style="color: red; text-decoration: underline; font-weight: bold;">Неудачные</p>
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+##### Cоздание заявки:
+Код ответа -  `422`
+```json
+{
+    "message": "Ошибка валидации",
+    "errors": {
+        "name": [
+            "Максимальное значение 64 символов"
+        ],
+        "email": [
+            "Невалидный адрес"
+        ],
+        "phone": [
+            "Невалидный номер телефона"
+        ],
+        "subject": [
+            "Минимальное значение 3 символа"
+        ],
+        "text": [
+            "Поле обязательно для заполнения"
+        ]
+    }
+}
+```
+
+##### Невалидный URL
+Код ответа -  `404`
+```json
+{
+    "message": "Ресурс не найден"
+}
+```
+
+##### Ошибка более 1 запроса в сутки
+Код ответа -  `429`
+```json
+{
+    "message": "Доступно лишь 1 заявку в сутки"
+}
+```
+
+##### Остальные возможные ошибки
+Код ответа -  `500`
+```json
+{
+    "message": "Ошибка сервера"
+}
+```
+
+#### Правила валидации
+
+##### Создание заявки:
+Все поля кроме файлов `обязательны` для заполнения:
+- Поле `name` от 3 до 64 символов
+- Поле `email` должно быть валидным адресом эл.почты
+- Поле `phone` до 15 символов
+- Поле `subject` от 3 до 255 символов
+- Файлы `attachments` могут быть:
+	- изображения *[jpeg, jpg, png, gif, webp]*
+	- аудио *[mpeg, wav, ogg, mp3]*
+	- видео *[mp4, quicktime, x-msvideo]*
+	- документы *[pdf, msword, plain, docx]*
+
+## Превью
+**Главная страница**
+
+
+## Использование
+
+> Убедитесь что у вас уже установлен PHP, Composer, Node.js, (Git)
+
+**После скачивания или клонирования проекта нужно установить backend зависимости:**
+```bash
+composer install
+```
+**Установить frontend зависимости:**
+```bash
+npm install
+```
+
+**Скопировать данные из файла .env.example в .env и сгенерировать новый ключ приложения и вставить в APP_KEY:**
+```bash
+php artisan key:generate
+```
+
+**Далее укажите свой конфиг для настройки БД**
+
+```bash
+DB_CONNECTION=sqlite
+```
+
+**Или если MySQL:**
+
+```bash
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=Db_Name
+DB_USERNAME=Your_Username
+DB_PASSWORD=Your_Password
+```
+
+
+**Запустить миграции для БД:**
+```bash
+php artisan migrate
+```
+
+**(Опционально) Засеять тестовыми данными БД из фабрик `Laravel`:**
+```bash
+php artisan db:seed
+```
+
+**Для локальной разработки нужно запустить frontend и backend сервера:**
+```bash
+php artisan serve
+```
+```bash
+npm run dev
+```
+
+#### <a href="#start">⬆ Наверх</a>
