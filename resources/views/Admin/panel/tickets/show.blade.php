@@ -36,9 +36,9 @@
 
 			<div class="container">
 				@if (!empty($files))
+				<p class="text-gray-800 font-bold">Прикреплённые файлы заявки №{{ $ticket->id }}</p>
 					@foreach ($files as $collectionName => $items)
-						@if (count($items))
-							<p class="text-gray-800 font-bold">Прикреплённые файлы заявки №{{ $ticket->id }}</p>
+						@if (count($items))							
 							<div>
 								<h2 class="font-bold italic my-2">{{ ucwords($collectionName) }}:</h2>
 								@foreach ($items as $item)
