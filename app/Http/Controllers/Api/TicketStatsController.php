@@ -27,7 +27,7 @@ class TicketStatsController extends Controller
     {
         $stats = $this->service->getStatistics();
 		return response()->json([
-			'message' => 'Success on getting statistics',
+			'message' => 'Статистика получена успешно',
 			'stats' => $stats
 		]);
     }
