@@ -10,6 +10,7 @@ use Illuminate\Http\Middleware\HandleCors;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -81,11 +82,15 @@ return Application::configure(basePath: dirname(__DIR__))
 							'message' => 'Ошибка валидации',
 							'errors' => $e->errors()
 						], 422);
+					case $e instanceof NotFoundHttpException:
+						return response()->json([
+							'message' => 'Ресурс не найден'
+						], 404);
 					default:
 						return response()->json([
 							'message' => 'Ошибка сервера'
 						], 500);
-				}	
+				}
 			});
 		}
     })->create();
